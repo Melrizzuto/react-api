@@ -1,0 +1,25 @@
+/* Footer.module.css (Desktop First)*/
+
+.footer {
+    width: 100%;
+    height: 85px;
+}
+
+
+/*media queries*/
+@media screen and (max-width: 768px) {
+
+    .footer {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+
+}
+
+@media screen and (max-width: 578px) {
+
+    .footer {
+        font-size: 0.8rem;
+    }
+
+}
