@@ -1,13 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Card from "./Card";
 import FormContainer from "./FormContainer";
-import { posts, tags } from "../data/posts";
+import axios from "axios";
 
 function Main() {
-    const [postsList, setPostsList] = useState(posts);
+    const [postsList, setPostsList] = useState([]);
     const [tagsSelected, setTagsSelected] = useState([]);
-    const tagList = tags(); // Ottieni la lista dei tag
+    const tagList = [];
 
+    // Recupero i posts dal mio server con la mia API 
+    useEffect(() => {
+        axios.get("http://localhost:3000/posts")
+            .then((res) => {
+                setPostsList(res.data?.data || []);
+            })
+            .catch(console.error);
+    }, []);
     // Funzione per aggiungere un post
     const handleAddPost = (newPost) => {
         setPostsList([...postsList, newPost]);
