@@ -24,8 +24,14 @@ function Main() {
 
     // Funzione per eliminare un post tramite id
     const handleDeletePost = (id) => {
-        const updatedPosts = postsList.filter((post) => post.id !== id);
-        setPostsList(updatedPosts);
+        axios.delete(`http://localhost:3000/posts/${id}`)
+            .then(() => {
+                const updatedPosts = postsList.filter((post) => post.id !== id);
+                setPostsList(updatedPosts);
+            })
+            .catch((err) => {
+                console.error("Failed to delete post", err);
+            });
     };
 
     // Funzione per gestire i tag di un singolo post
