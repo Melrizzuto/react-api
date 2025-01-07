@@ -12,7 +12,8 @@ function Main() {
     useEffect(() => {
         axios.get("http://localhost:3000/posts")
             .then((res) => {
-                setPostsList(res.data?.data || []);
+                setPostsList(res.data.data);
+                console.log(res.data.data)
             })
             .catch(console.error);
     }, []);
