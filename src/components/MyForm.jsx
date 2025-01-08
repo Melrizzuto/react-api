@@ -41,10 +41,12 @@ function MyForm({ onAddPost, tagList }) {
         axios
             .post("http://localhost:3000/posts", formData)
             .then((response) => {
+                console.log("Post creato:", response.data);
+
                 // passo i dati del post al componente padre
                 onAddPost(response.data);
 
-                // Reset dei campi del form
+                // Reset del form
                 setFormData({
                     title: "",
                     content: "",
@@ -58,7 +60,6 @@ function MyForm({ onAddPost, tagList }) {
                 console.error("Errore durante il salvataggio del post:", err);
             });
     };
-
     return (
         <form onSubmit={handleSubmit} className="p-4 rounded shadow-lg bg-light m-auto my-2">
             <h4 className="mb-1 text-center text-secondary">Aggiungi un nuovo post</h4>
