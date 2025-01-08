@@ -1,6 +1,7 @@
 import { useState } from "react";
+import axios from "axios";
 
-function MyForm({ onAddPost, posts, tagList }) {
+function MyForm({ onAddPost, tagList }) {
     // Stati del form
     const [formData, setFormData] = useState({
         title: "",
@@ -16,7 +17,7 @@ function MyForm({ onAddPost, posts, tagList }) {
         const { name, value, type, checked } = e.target;
 
         if (type === "checkbox") {
-            //selezione e deselezione dei tags
+            // selezione e deselezione dei tags
             setFormData((prevData) => ({
                 ...prevData,
                 tags: checked
@@ -36,24 +37,26 @@ function MyForm({ onAddPost, posts, tagList }) {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Nuovo post con i dati raccolti
-        const newPost = {
-            id: posts.length + 1,
-            ...formData,
-        };
+        // Invio dati al backend
+        axios
+            .post("http://localhost:3000/posts", formData)
+            .then((response) => {
+                // passo i dati del post al componente padre
+                onAddPost(response.data);
 
-        // Passa i dati del post al componente principale
-        onAddPost(newPost);
-
-        // Resetta i campi del form
-        setFormData({
-            title: "",
-            content: "",
-            image: "",
-            category: "",
-            tags: [],
-            published: true,
-        });
+                // Reset dei campi del form
+                setFormData({
+                    title: "",
+                    content: "",
+                    image: "",
+                    category: "",
+                    tags: [],
+                    published: true,
+                });
+            })
+            .catch((err) => {
+                console.error("Errore durante il salvataggio del post:", err);
+            });
     };
 
     return (
